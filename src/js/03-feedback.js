@@ -24,8 +24,9 @@ function onMessageEnter(e) {
 const onLoginFormSubmit = e => {
   e.preventDefault();
   refs.form.reset();
-  formData.email = '';
-  formData.message = '';
+  formData = {};
+  // formData.email = '';
+  // formData.message = '';
 
   console.log(formData);
 };
