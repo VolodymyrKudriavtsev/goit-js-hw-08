@@ -1,65 +1,45 @@
 import throttle from 'lodash.throttle';
 
-const refs = {
-  form: document.querySelector('.feedback-form'),
-  input: document.querySelector('input'),
-  textarea: document.querySelector('textarea'),
-};
+const form = document.querySelector('.feedback-form');
 
 const formData = {
   email: '',
   message: '',
 };
 
-const onEmailEnter = e => {
-  formData.email = e.target.value;
-  console.log(formData);
-};
+const localStorageData = JSON.parse(
+  localStorage.getItem('feedback-form-state')
+);
 
-function onMessageEnter(e) {
-  formData.message = e.target.value;
-  console.log(formData);
-}
+const updateLoginForm = () => {
+  if (localStorage['feedback-form-state']) {
+    form.elements[0].value = localStorageData.email;
+    form.elements[1].value = localStorageData.message;
+  } else {
+    form.elements[0].value = '';
+    form.elements[1].value = '';
+  }
+};
+updateLoginForm();
+
+const onLoginFormEnter = e => {
+  if (e.target.nodeName === 'INPUT') {
+    formData.email = e.target.value;
+  } else {
+    formData.message = e.target.value;
+  }
+
+  localStorage.setItem('feedback-form-state', JSON.stringify(formData));
+};
 
 const onLoginFormSubmit = e => {
   e.preventDefault();
-  refs.form.reset();
-  formData = {};
-  // formData.email = '';
-  // formData.message = '';
-
+  form.reset();
   console.log(formData);
+  localStorage.removeItem('feedback-form-state');
+  formData.email = '';
+  formData.message = '';
 };
 
-refs.form.addEventListener('submit', onLoginFormSubmit);
-// refs.form.addEventListener('input', throttle(onTextEnter, 500));
-refs.input.addEventListener('input', throttle(onEmailEnter, 500));
-refs.textarea.addEventListener('input', throttle(onMessageEnter, 500));
-
-// !получить значения из инпута и текстарии;  +
-//  !?для этого - слушать форму целиком?? или инпуты по отдельности
-// !?запилась из в локалсторедж; посмотреть, как создать массив.
-// !? очищать массив Формдата при сабмите
-// !применить троттл к событию "инпут"  +
-
-// const onInputTextEnter = (e) => {
-//   if (e.currentTarget.value !== '') {
-//       refs.output.textContent = e.currentTarget.value;
-//   } else {
-//       refs.output.textContent = 'Anonymous';
-//   }
-// }
-
-// 	const formElements = e.currentTarget.elements;
-// 	const email = formElements.email.value;
-// 	const password = formElements.password.value;
-
-// 	if (email === "" || password === "") {
-// 		return alert("All fields of the form must be filled in!!!");
-// 	}
-
-// 	const formData = { email, password };
-// 	console.log(formData);
-
-// 	form.reset();
-// };
+form.addEventListener('submit', onLoginFormSubmit);
+form.addEventListener('input', throttle(onLoginFormEnter, 500));
