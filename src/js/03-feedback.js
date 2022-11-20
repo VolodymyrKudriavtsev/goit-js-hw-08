@@ -6,12 +6,10 @@ const refs = {
   textarea: document.querySelector('textarea'),
 };
 
-const onLoginFormSubmit = e => {
-  e.preventDefault();
-  refs.form.reset();
+const formData = {
+  email: '',
+  message: '',
 };
-
-const formData = {};
 
 const onEmailEnter = e => {
   formData.email = e.target.value;
@@ -22,6 +20,35 @@ function onMessageEnter(e) {
   formData.message = e.target.value;
   console.log(formData);
 }
+
+const onLoginFormSubmit = e => {
+  e.preventDefault();
+  refs.form.reset();
+  formData = {
+    email: '',
+    message: '',
+  };
+  console.log(formData);
+};
+
+refs.form.addEventListener('submit', onLoginFormSubmit);
+// refs.form.addEventListener('input', throttle(onTextEnter, 500));
+// refs.input.addEventListener('input', throttle(onEmailEnter, 500));
+// refs.textarea.addEventListener('input', throttle(onMessageEnter, 500));
+
+// !получить значения из инпута и текстарии;  +
+//  !?для этого - слушать форму целиком?? или инпуты по отдельности
+// !?запилась из в локалсторедж; посмотреть, как создать массив.
+// !? очищать массив Формдата при сабмите
+// !применить троттл к событию "инпут"  +
+
+// const onInputTextEnter = (e) => {
+//   if (e.currentTarget.value !== '') {
+//       refs.output.textContent = e.currentTarget.value;
+//   } else {
+//       refs.output.textContent = 'Anonymous';
+//   }
+// }
 
 // 	const formElements = e.currentTarget.elements;
 // 	const email = formElements.email.value;
@@ -36,21 +63,3 @@ function onMessageEnter(e) {
 
 // 	form.reset();
 // };
-
-refs.form.addEventListener('submit', onLoginFormSubmit);
-// refs.form.addEventListener('input', throttle(onTextEnter, 500));
-refs.input.addEventListener('input', throttle(onEmailEnter, 500));
-refs.textarea.addEventListener('input', throttle(onMessageEnter, 500));
-
-// !получить значения из инпута и текстарии;  +
-//  !?для этого - слушать форму целиком?? или инпуты по отдельности
-// !?запилась из в локалсторедж; посмотреть, как создать массив.
-// !применить троттл к событию "инпут"  +
-
-// const onInputTextEnter = (e) => {
-//   if (e.currentTarget.value !== '') {
-//       refs.output.textContent = e.currentTarget.value;
-//   } else {
-//       refs.output.textContent = 'Anonymous';
-//   }
-// }
