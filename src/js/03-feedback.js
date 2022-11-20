@@ -24,17 +24,16 @@ function onMessageEnter(e) {
 const onLoginFormSubmit = e => {
   e.preventDefault();
   refs.form.reset();
-  formData = {
-    email: '',
-    message: '',
-  };
+  formData.email = '';
+  formData.message = '';
+
   console.log(formData);
 };
 
 refs.form.addEventListener('submit', onLoginFormSubmit);
 // refs.form.addEventListener('input', throttle(onTextEnter, 500));
-// refs.input.addEventListener('input', throttle(onEmailEnter, 500));
-// refs.textarea.addEventListener('input', throttle(onMessageEnter, 500));
+refs.input.addEventListener('input', throttle(onEmailEnter, 500));
+refs.textarea.addEventListener('input', throttle(onMessageEnter, 500));
 
 // !получить значения из инпута и текстарии;  +
 //  !?для этого - слушать форму целиком?? или инпуты по отдельности
