@@ -1,19 +1,8 @@
 import throttle from 'lodash.throttle';
 
-const refs = {
-  form: document.querySelector('.feedback-form'),
-  input: document.querySelector('input'),
-  textarea: document.querySelector('textarea'),
-};
+const form = document.querySelector('.feedback-form');
 
-console.log(refs.form);
-console.log(refs.input);
-console.log(refs.textarea);
-
-const formData = {
-  email: '',
-  message: '',
-};
+let formData = {};
 
 const localStorageData = JSON.parse(
   localStorage.getItem('feedback-form-state')
@@ -30,24 +19,24 @@ const updateLoginForm = () => {
 };
 updateLoginForm();
 
-const onLoginFormEnter = e => {
-  if (e.target.nodeName === 'INPUT') {
-    formData.email = e.target.value;
-  } else {
-    formData.message = e.target.value;
-  }
+const onLoginFormInput = e => {
+  formData.email = form.elements[0].value;
+  formData.message = form.elements[1].value;
 
   localStorage.setItem('feedback-form-state', JSON.stringify(formData));
 };
 
 const onLoginFormSubmit = e => {
   e.preventDefault();
-  form.reset();
+  if (form.elements[0].value === '' || form.elements[1] === '') {
+    return alert('All fields of the form must be filled in!!!');
+  }
+
   console.log(formData);
+  form.reset();
   localStorage.removeItem('feedback-form-state');
-  formData.email = '';
-  formData.message = '';
+  formData = {};
 };
 
 form.addEventListener('submit', onLoginFormSubmit);
-form.addEventListener('input', throttle(onLoginFormEnter, 500));
+form.addEventListener('input', throttle(onLoginFormInput, 500));
