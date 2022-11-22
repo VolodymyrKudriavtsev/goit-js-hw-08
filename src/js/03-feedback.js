@@ -8,13 +8,12 @@ const localStorageData = JSON.parse(
   localStorage.getItem('feedback-form-state')
 );
 
+console.log(localStorage);
+
 const updateLoginForm = () => {
   if (localStorage['feedback-form-state']) {
     form.elements[0].value = localStorageData.email;
     form.elements[1].value = localStorageData.message;
-  } else {
-    form.elements[0].value = '';
-    form.elements[1].value = '';
   }
 };
 updateLoginForm();
